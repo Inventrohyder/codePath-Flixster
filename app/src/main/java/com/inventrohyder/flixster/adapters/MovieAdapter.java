@@ -2,17 +2,24 @@ package com.inventrohyder.flixster.adapters;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.inventrohyder.flixster.R;
 import com.inventrohyder.flixster.models.Movie;
 
@@ -62,12 +69,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         TextView mTvTitle;
         TextView mTvOverview;
         ImageView mTvPoster;
+        ProgressBar mProgressBar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mTvTitle = itemView.findViewById(R.id.tvTitle);
             mTvOverview = itemView.findViewById(R.id.tvOverview);
             mTvPoster = itemView.findViewById(R.id.tvPoster);
+            mProgressBar = itemView.findViewById(R.id.progressBar);
         }
 
         public void bind(Movie movie) {
@@ -84,7 +93,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             }
             Glide.with(mContext)
                     .load(imageUrl)
-                    .placeholder(R.drawable.ic_movie)
+                    .listener(new RequestListener<Drawable>() {
+
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            mProgressBar.setVisibility(View.GONE);
+                            return false; // important to return false so the error placeholder can be placed
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            mProgressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
                     .error(R.drawable.ic_broken_image)  // Error image
                     .into(mTvPoster);
         }
