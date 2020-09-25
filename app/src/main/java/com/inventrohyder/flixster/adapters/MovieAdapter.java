@@ -82,7 +82,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 // else imageUrl = poster image
                 imageUrl = movie.getPosterPath();
             }
-            Glide.with(mContext).load(imageUrl).into(mTvPoster);
+            Glide.with(mContext)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.ic_movie)
+                    .error(R.drawable.ic_broken_image)  // Error image
+                    .into(mTvPoster);
         }
     }
 }
