@@ -1,6 +1,7 @@
 package com.inventrohyder.flixster.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,7 +73,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         public void bind(Movie movie) {
             mTvTitle.setText(movie.getTitle());
             mTvOverview.setText(movie.getOverview());
-            Glide.with(mContext).load(movie.getPosterPath()).into(mTvPoster);
+            String imageUrl;
+            // if phone is in Landscape
+            if (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                // then imageUrl = drop image
+                imageUrl = movie.getBackdropPath();
+            } else {
+                // else imageUrl = poster image
+                imageUrl = movie.getPosterPath();
+            }
+            Glide.with(mContext).load(imageUrl).into(mTvPoster);
         }
     }
 }
