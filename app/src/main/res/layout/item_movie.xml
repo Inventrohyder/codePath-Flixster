@@ -16,10 +16,13 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:textSize="24sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvPoster"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Money Plane" />
@@ -30,6 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvPoster"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
