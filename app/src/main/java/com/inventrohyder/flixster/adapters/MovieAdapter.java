@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -99,7 +101,28 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return mMovies.size();
     }
 
-    public class ViewHolder1 extends RecyclerView.ViewHolder {
+    public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
+
+        ConstraintLayout mContainer;
+
+        public BaseViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mContainer = itemView.findViewById(R.id.container);
+        }
+
+        public void bind(final Movie movie) {
+            // 1. Register click lister on the whole row
+            mContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // 2. Navigate to a new Activity on tap
+                    Toast.makeText(mContext, movie.getTitle(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    public class ViewHolder1 extends BaseViewHolder {
 
         private ImageView mPopTvPoster;
         private ProgressBar mProgressBar;
@@ -110,7 +133,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mProgressBar = itemView.findViewById(R.id.progressBar);
         }
 
-        public void bind(Movie movie) {
+        @Override
+        public void bind(final Movie movie) {
+            super.bind(movie);
             Glide.with(mContext)
                     .load(movie.getBackdropPath())
                     .listener(new RequestListener<Drawable>() {
@@ -131,7 +156,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public class ViewHolder2 extends RecyclerView.ViewHolder {
+    public class ViewHolder2 extends BaseViewHolder {
 
         ImageView mTvPoster;
         ProgressBar mProgressBar;
@@ -146,7 +171,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mProgressBar = itemView.findViewById(R.id.progressBar);
         }
 
-        public void bind(Movie movie) {
+        public void bind(final Movie movie) {
+            super.bind(movie);
             mTvTitle.setText(movie.getTitle());
             mTvOverview.setText(movie.getOverview());
             String imageUrl;
