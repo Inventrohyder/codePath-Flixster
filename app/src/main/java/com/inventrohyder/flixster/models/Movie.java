@@ -39,6 +39,10 @@ public class Movie {
         return movies;
     }
 
+    public boolean isPopular() {
+        return rating > 6.0;
+    }
+
     public int getMovieId() {
         return movieId;
     }

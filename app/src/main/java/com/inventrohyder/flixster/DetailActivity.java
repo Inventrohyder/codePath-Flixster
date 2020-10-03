@@ -31,6 +31,7 @@ public class DetailActivity extends YouTubeBaseActivity {
     RatingBar mRatingBar;
 
     YouTubePlayerView mYouTubePlayerView;
+    private Movie mMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +43,14 @@ public class DetailActivity extends YouTubeBaseActivity {
         mRatingBar = findViewById(R.id.ratingBar);
         mYouTubePlayerView = findViewById(R.id.player);
 
-        Movie movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
-        assert movie != null;
-        mTvTitle.setText(movie.getTitle());
-        mTvOverview.setText(movie.getOverview());
-        mRatingBar.setRating((float) movie.getRating());
+        mMovie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
+        assert mMovie != null;
+        mTvTitle.setText(mMovie.getTitle());
+        mTvOverview.setText(mMovie.getOverview());
+        mRatingBar.setRating((float) mMovie.getRating());
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(String.format(Locale.ENGLISH, VIDEO_URL, movie.getMovieId()), new JsonHttpResponseHandler() {
+        client.get(String.format(Locale.ENGLISH, VIDEO_URL, mMovie.getMovieId()), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 try {
@@ -79,8 +80,14 @@ public class DetailActivity extends YouTubeBaseActivity {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 Log.d(TAG, "onInitializationSuccess: ");
-                // do any work here to cue video, play video, etc.
-                youTubePlayer.cueVideo(key);
+
+                if (mMovie.isPopular()) {
+                    youTubePlayer.loadVideo(key);
+                    youTubePlayer.play();
+                } else {
+                    // do any work here to cue video, play video, etc.
+                    youTubePlayer.cueVideo(key);
+                }
             }
 
             @Override
