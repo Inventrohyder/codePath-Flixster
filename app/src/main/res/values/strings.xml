@@ -2,4 +2,5 @@
     <string name="app_name">Flixster</string>
     <string name="poster_desc">Movie poster image</string>
     <string name="popular_image_poster">Popular image poster</string>
+    <string name="play_popular">Play Button for popular banners</string>
 </resources>
