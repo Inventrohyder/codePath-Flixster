@@ -1,6 +1,7 @@
 package com.inventrohyder.flixster.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,8 +22,11 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.inventrohyder.flixster.DetailActivity;
 import com.inventrohyder.flixster.R;
 import com.inventrohyder.flixster.models.Movie;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -116,7 +119,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onClick(View view) {
                     // 2. Navigate to a new Activity on tap
-                    Toast.makeText(mContext, movie.getTitle(), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(mContext, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    mContext.startActivity(i);
                 }
             });
         }

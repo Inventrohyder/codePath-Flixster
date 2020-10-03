@@ -3,17 +3,23 @@ package com.inventrohyder.flixster.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Parcel
 public class Movie {
 
     String backdropPath;
     String posterPath;
     String title;
     String overview;
-    Double rating;
+    double rating;
+
+    // Empty constructor required by {@link Parceler} Library
+    public Movie() {
+    }
 
     public Movie(JSONObject jsonObject) throws JSONException {
         backdropPath = jsonObject.getString("backdrop_path");
@@ -31,7 +37,7 @@ public class Movie {
         return movies;
     }
 
-    public Double getRating() {
+    public double getRating() {
         return rating;
     }
 
