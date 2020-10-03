@@ -6,10 +6,20 @@
     android:orientation="vertical"
     tools:context=".DetailActivity">
 
-    <com.google.android.youtube.player.YouTubePlayerView
-        android:id="@+id/player"
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:transitionName="title"
+        tools:text="Money Plane" />
+
+    <TextView
+        android:id="@+id/tvOverview"
         android:layout_width="match_parent"
-        android:layout_height="250dp" />
+        android:layout_height="wrap_content"
+        android:transitionName="overview"
+        tools:text="A professional thief with $40 million in debt and his family's life on the line must commit one final heist - rob a futuristic airborne casino filled with the world's most dangerous criminals." />
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -20,16 +30,10 @@
         android:numStars="10"
         android:rating="8.5" />
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        tools:text="Money Plane" />
-
-    <TextView
-        android:id="@+id/tvOverview"
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/player"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="A professional thief with $40 million in debt and his family's life on the line must commit one final heist - rob a futuristic airborne casino filled with the world's most dangerous criminals." />
+        android:layout_height="250dp"
+        android:transitionName="banner" />
+
 </LinearLayout>

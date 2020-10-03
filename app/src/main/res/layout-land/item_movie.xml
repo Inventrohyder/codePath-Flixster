@@ -11,6 +11,7 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:contentDescription="@string/poster_desc"
+        android:transitionName="banner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:textSize="24sp"
+        android:transitionName="title"
         app:layout_constraintStart_toEndOf="@+id/tvPoster"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Money Plane" />
@@ -43,6 +45,7 @@
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:maxLines="9"
+        android:transitionName="overview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvPoster"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"

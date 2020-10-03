@@ -9,9 +9,10 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/popTvPoster"
+        android:id="@+id/tvPoster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:transitionName="banner"
         android:contentDescription="@string/popular_image_poster"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/popTvPoster"
+        app:layout_constraintEnd_toEndOf="@+id/tvPoster"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

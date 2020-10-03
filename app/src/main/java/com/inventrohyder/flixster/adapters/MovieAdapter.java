@@ -1,5 +1,6 @@
 package com.inventrohyder.flixster.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -104,26 +107,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return mMovies.size();
     }
 
-    public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
+    public abstract static class BaseViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout mContainer;
 
         public BaseViewHolder(@NonNull View itemView) {
             super(itemView);
             mContainer = itemView.findViewById(R.id.container);
-        }
-
-        public void bind(final Movie movie) {
-            // 1. Register click lister on the whole row
-            mContainer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // 2. Navigate to a new Activity on tap
-                    Intent i = new Intent(mContext, DetailActivity.class);
-                    i.putExtra("movie", Parcels.wrap(movie));
-                    mContext.startActivity(i);
-                }
-            });
         }
     }
 
@@ -134,13 +124,11 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public ViewHolder1(@NonNull View itemView) {
             super(itemView);
-            mPopTvPoster = itemView.findViewById(R.id.popTvPoster);
+            mPopTvPoster = itemView.findViewById(R.id.tvPoster);
             mProgressBar = itemView.findViewById(R.id.progressBar);
         }
 
-        @Override
         public void bind(final Movie movie) {
-            super.bind(movie);
             Glide.with(mContext)
                     .load(movie.getBackdropPath())
                     .listener(new RequestListener<Drawable>() {
@@ -158,6 +146,19 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     })
                     .error(R.drawable.ic_broken_image)  // Error image
                     .into(mPopTvPoster);
+
+            // 1. Register click lister on the whole row
+            mContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // 2. Navigate to a new Activity on tap
+                    Intent i = new Intent(mContext, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation((Activity) mContext, mPopTvPoster, "banner");
+                    mContext.startActivity(i, options.toBundle());
+                }
+            });
         }
     }
 
@@ -177,7 +178,6 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         public void bind(final Movie movie) {
-            super.bind(movie);
             mTvTitle.setText(movie.getTitle());
             mTvOverview.setText(movie.getOverview());
             String imageUrl;
@@ -207,6 +207,22 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     })
                     .error(R.drawable.ic_broken_image)  // Error image
                     .into(mTvPoster);
+
+            // 1. Register click lister on the whole row
+            mContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // 2. Navigate to a new Activity on tap
+                    Intent i = new Intent(mContext, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    Pair<View, String> p1 = Pair.create((View) mTvPoster, "banner");
+                    Pair<View, String> p2 = Pair.create((View) mTvTitle, "title");
+                    Pair<View, String> p3 = Pair.create((View) mTvOverview, "overview");
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1, p2, p3);
+                    mContext.startActivity(i, options.toBundle());
+                }
+            });
         }
     }
 
