@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.inventrohyder.flixster.DetailActivity;
@@ -109,7 +109,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public abstract static class BaseViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout mContainer;
+        ViewGroup mContainer;
 
         public BaseViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -129,6 +129,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         public void bind(final Movie movie) {
+
             Glide.with(mContext)
                     .load(movie.getBackdropPath())
                     .listener(new RequestListener<Drawable>() {
@@ -145,6 +146,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         }
                     })
                     .error(R.drawable.ic_broken_image)  // Error image
+                    .transform(new RoundedCorners(50))
                     .into(mPopTvPoster);
 
             // 1. Register click lister on the whole row
